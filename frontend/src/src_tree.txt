@@ -1,0 +1,61 @@
+.
+├── app
+│   ├── guards
+│   │   └── auth-guard.ts
+│   ├── providers
+│   │   └── element-plus.ts
+│   └── router.ts
+├── App.vue
+├── assets
+│   ├── logo.svg
+│   └── style.css
+├── components
+│   └── HelloWorld.vue
+├── composables
+│   └── useAIStream.ts
+├── config
+│   └── env.ts
+├── features
+│   ├── auth
+│   │   ├── api.ts
+│   │   └── pages
+│   │       ├── LoginView.vue
+│   │       └── RegisterView.vue
+│   ├── books
+│   │   ├── api.ts
+│   │   ├── components
+│   │   │   └── BookCard.vue
+│   │   └── pages
+│   │       └── BooksListView.vue
+│   ├── chat
+│   │   ├── api.ts
+│   │   └── pages
+│   │       ├── ChatCenterView.vue
+│   │       └── TicketDetailView.vue
+│   ├── favorites
+│   │   ├── api.ts
+│   │   └── pages
+│   │       └── FavoritesView.vue
+│   ├── loans
+│   │   ├── api.ts
+│   │   └── pages
+│   │       └── LoansListView.vue
+│   └── profile
+│       └── pages
+│           └── ProfileView.vue
+├── lib
+│   ├── http.ts
+│   └── storage.ts
+├── main.ts
+├── src_tree.txt
+├── stores
+│   └── auth.ts
+├── style.css
+├── types
+│   ├── base.ts
+│   ├── book.ts
+│   ├── chat.ts
+│   └── loan.ts
+└── vite-env.d.ts
+
+25 directories, 34 files
