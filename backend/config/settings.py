@@ -187,6 +187,13 @@ LOGGING = {
         }
     },
     "root": {"handlers": ["console"], "level": LOG_LEVEL},
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
 }
 
 # 若 DEBUG 為 False，建議加強安全設定（可按需擴充）
