@@ -1,10 +1,11 @@
 <!-- src/App.vue -->
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import { RouterView, RouterLink, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { ArrowDown } from '@element-plus/icons-vue'
+import { useNotificationsStore } from '@/stores/notifications'
 
 // 穩定載入 logo（避免別名解析問題）
 const logoUrl = new URL('./assets/logo.svg', import.meta.url).href
@@ -12,6 +13,7 @@ const logoUrl = new URL('./assets/logo.svg', import.meta.url).href
 // 狀態
 const router = useRouter()
 const auth = useAuthStore()
+const notifications = useNotificationsStore()
 
 const isLoggedIn = computed<boolean>(() => !!auth.me)
 const userName = computed<string>(() => auth.me?.display_name || auth.me?.email || '使用者')
@@ -25,6 +27,18 @@ onMounted(async () => {
   if (hasToken.value && !auth.me) {
     try { await auth.fetchMe() } catch { /* ignore */ }
   }
+})
+
+watch(isAuthed, (authed) => {
+  if (authed) {
+    notifications.ensurePolling()
+  } else {
+    notifications.stopPolling()
+  }
+}, { immediate: true })
+
+onBeforeUnmount(() => {
+  notifications.stopPolling()
 })
 
 // 登出
@@ -91,7 +105,14 @@ defineExpose({ isAuthed, hasToken, isLoggedIn, userName })
           <RouterLink to="/books" class="item" active-class="active">館藏</RouterLink>
           <RouterLink to="/loans" class="item" active-class="active">借閱紀錄</RouterLink>
           <RouterLink to="/favorites" class="item" active-class="active">收藏</RouterLink>
-          <RouterLink to="/notifications" class="item" active-class="active">通知</RouterLink>
+          <RouterLink to="/notifications" class="item" active-class="active">
+            通知
+            <span
+              v-if="notifications.hasUnread"
+              class="notif-dot"
+              aria-hidden="true"
+            />
+          </RouterLink>
           <RouterLink to="/chat" class="item" active-class="active">客服中心</RouterLink>
         </nav>
 
@@ -201,6 +222,10 @@ defineExpose({ isAuthed, hasToken, isLoggedIn, userName })
   gap: 4px;
 }
 .menu .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 12px;
   border-radius: 8px;
   color: #374151;
@@ -214,6 +239,13 @@ defineExpose({ isAuthed, hasToken, isLoggedIn, userName })
   background: #edf2ff;
   color: #1f3dc3;
   font-weight: 600;
+}
+.menu .item .notif-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f56c6c;
+  margin-left: auto;
 }
 
 /* 個人資料框（固定在側欄底部） */
