@@ -1,130 +1,90 @@
-# Library System
+# Library System 前端
 
-一個端到端的圖書館管理平台，整合 Django REST API、Vue 3 SPA、PostgreSQL 以及 Ollama／AI 聊天助理。專案以模組化方式切分功能，支援使用者自助借閱、管理員審核、通知提醒與客服對話。
+這個前端專案以 Vue 3、TypeScript、Vite 為基礎，搭配 Element Plus UI 套件打造圖書館管理系統的操作介面。主要支援會員登入、館藏查詢與借閱、收藏清單、通知中心，以及客服票單與 AI 回覆等功能。
 
-## 系統架構
-
-- **後端**：`backend/` 為 Django 5 專案，使用 Django REST Framework、SimpleJWT，依功能拆分成 `auth_app`、`users`、`books`、`loans`、`favorites`、`notifications`、`chat` 等應用，並以服務層（`services.py`）封裝商業邏輯。
-- **前端**：`frontend/` 為 Vue 3 + TypeScript + Vite 專案，採 domain-oriented 結構（`features/*`），使用 Pinia 管理登入狀態與 Element Plus UI 元件。
-- **資料庫**：PostgreSQL 16，透過 `dj-database-url` 與環境變數連線。
-- **AI / RAG**：`chat` 模組連接 Ollama 模型，提供同步回覆與 SSE 串流。
-- **協作與自動化**：`docker-compose.yml` 建立 db/backend/frontend/ollama 四個服務；`Makefile` 提供一鍵啟動、測試與維運指令。
-
-```
-[Vue 3 SPA] -- REST / SSE --> [Django API] -- ORM --> [PostgreSQL]
-                                   |
-                                   +--> [Ollama 推理服務]
-```
-
-## 功能總覽
-
-### 使用者與身份
-- 電子郵件註冊／登入／刷新 Token，支援多端登出。
-- 角色與權限：一般讀者、管理員；共用 `/auth/me/` 取得個人資訊。
-- 個人檔案編輯與管理員後台使用者管理。
-
-### 館藏與借閱
-- 書籍／分類 CRUD、搜尋、分頁、排序與庫存狀態顯示。
-- 借閱流程包含借書、續借、歸還，並自動判斷庫存不足時改為預約。
-- 收藏清單、個人借閱與預約紀錄查詢。
-- 事件通知：借閱到期提醒、系統訊息等（支援批次設為已讀）。
-
-### 客服與 AI 聊天
-- 客服工單與訊息串管理，支援管理員指派處理。
-- 以 JWT 鑑權的 SSE 串流，在 `ChatCenterView` 中串接 Ollama 模型，提供即時 AI 回覆。
-
-### 前端體驗
-- 使用 `features/*/api.ts` 匯整各模組 API，`lib/http.ts` 統一攔截器與錯誤處理。
-- `useAIStream` 可重複使用於任意 SSE 場景，並具中止控制與錯誤回傳。
-- 路由守衛 `app/guards/auth-guard.ts` 確保私人頁面需登入。
-
-## 專案目錄重點
-
-```
-. (monorepo)
-├── backend/           # Django REST 後端
-│   ├── config/        # settings、URL、WSGI/ASGI
-│   ├── auth_app/      # JWT 登入與 refresh token 黑名單
-│   ├── books/         # 書籍與分類管理
-│   ├── loans/         # 借閱、預約、續借、還書服務
-│   ├── favorites/     # 收藏清單
-│   ├── notifications/ # 使用者通知
-│   ├── chat/          # 客服工單、AI 串流回覆
-│   └── users/         # 個人資料與管理員 API
-├── frontend/          # Vue 3 + Vite 前端
-│   ├── app/router.ts  # 路由與守衛
-│   ├── features/*     # Domain 功能模組 (auth/books/chat/...)
-│   ├── stores/auth.ts # Pinia 登入狀態
-│   └── composables/   # 共用 hook，如 AI SSE 串流
-├── docker-compose.yml # PostgreSQL、Ollama、後端、前端整合
-└── Makefile           # 日常開發與維運指令
-```
+## 技術棧
+- Vue 3 + `<script setup>` + TypeScript
+- Vite 開發/建置流程，`@` 路徑別名指向 `src`
+- Element Plus 元件庫與 `@element-plus/icons-vue`
+- Pinia 狀態管理（`src/stores`）
+- Axios HTTP 客戶端與 Token 自動刷新 (`src/lib/http.ts`)
 
 ## 快速開始
-
-1. **取得專案原始碼**
+1. **安裝依賴**
    ```bash
-   git clone https://github.com/raylei50653/library_system.git
-   cd library_system
+   npm install
    ```
-2. **安裝前置**：
-   - Docker 24+ 與 Docker Compose v2（若要使用 `docker compose build` 建議一併安裝 Buildx）。
-   - （如需 GPU／Ollama 推理）NVIDIA 驅動、NVIDIA Container Toolkit，完成 `sudo nvidia-ctk runtime configure --runtime=docker --set-as-default` 後重新啟動 Docker。
-   - Node 18+、Python 3.12（僅在跳過 Docker、於本機執行時需要）。
-   - 若於本機環境執行（非 Docker），建議先透過套件管理器安裝基礎相依：
-     - **Debian / Ubuntu (apt)**：
-       ```bash
-       sudo apt update
-       sudo apt install -y build-essential python3 python3-venv python3-dev libpq-dev \
-         libffi-dev libssl-dev pkg-config nodejs npm git
-       ```
-     - **Arch / Manjaro (pacman)**：
-       ```bash
-       sudo pacman -Syu
-       sudo pacman -S --needed base-devel python python-pip python-virtualenv libpq \
-         libffi openssl nodejs npm git
-       ```
-3. **建立環境**：根據 `backend/.env`、`frontend/.env` 覆寫需要的設定（預設已可本機使用）。
-4. **啟動所有服務**
+2. **環境變數**  
+   建議在 `frontend/.env.local` 內設定連線位址：
    ```bash
-   make up          # 或 docker compose up -d
-   make logs-backend
+   VITE_API_BASE=http://127.0.0.1:8000
+   VITE_SSE_BASE=http://127.0.0.1:8000   # 選填，預設同 API_BASE
+   VITE_ENABLE_SIGNUP=true              # 控制是否顯示註冊流程
    ```
-   - 後端管理站台：`http://127.0.0.1:8000/admin/`
-   - 前端開發伺服器：`http://127.0.0.1:5173`
-5. **建立管理員帳號**
+3. **啟動開發伺服器**
    ```bash
-   make superuser
+   npm run dev
    ```
-   完成指令後，以該帳號登入 `http://127.0.0.1:8000/admin/`，在 `Users` 選單中點選 `Add user`，輸入新成員的 `Username` 與 `Password`，再勾選需要的 `Staff status` 或 `Superuser status` 後儲存。
-6. **建立測試資料**：透過 API 或 Django Admin 匯入 `backend/books_seed.csv` 等資料。
+4. **正式建置與預覽**
+   ```bash
+   npm run build
+   npm run preview
+   ```
+5. **容器模式**  
+   `Dockerfile` 與 `entrypoint.sh` 用來在容器中安裝依賴並以 `npm run dev -- --host 0.0.0.0` 啟動專案，可透過 docker-compose 與後端一起運行。
 
-### 本機開發（不透過 Docker）
-
-```bash
-# 後端
-cd backend
-uv sync
-uv run python manage.py migrate
-uv run python manage.py runserver
-
-# 前端
-cd frontend
-npm install
-npm run dev
+## 目錄結構
+```text
+frontend/
+├── Dockerfile            # 容器化設定
+├── entrypoint.sh         # 容器啟動腳本
+├── index.html            # Vite 單頁入口
+├── public/               # 靜態資產 (build 時原樣輸出)
+└── src/
+    ├── main.ts           # Vue 入口：掛載 Pinia、Element Plus、Router
+    ├── App.vue           # 頂層版面：Header + 側欄 + RouterView
+    ├── app/
+    │   ├── router.ts     # 路由表與頁面分組
+    │   └── guards/       # 全域導航守衛（登入驗證）
+    ├── assets/           # 全域樣式與圖片
+    ├── components/       # 共用元件
+    ├── composables/      # 可重用邏輯（如 SSE 串流）
+    ├── config/           # 環境設定讀取
+    ├── features/         # 以領域切分的頁面與 API 模組
+    ├── lib/              # 泛用工具（HTTP、Storage）
+    ├── stores/           # Pinia 狀態
+    ├── types/            # 共用型別定義
+    └── style.css         # 全域樣式覆寫
 ```
 
-## 測試與維運
+### features/ 子系統
+- `auth`：登入/註冊頁 (`pages/`)、對應 API、Pinia `useAuthStore` 配合本地 Token。
+- `books`：館藏列表、查詢條件、借閱/預約流程，與 `favorites`、`loans` 功能協同。
+- `favorites`：收藏清單 API，提供 `loadFavoritesOnce` 以快取收藏狀態。
+- `loans`：借閱紀錄頁面與續借/歸還動作，集中與 `/api/loans` 互動。
+- `notifications`：通知中心頁面與 API，配合 `useNotificationsStore` 輪詢未讀數。
+- `chat`：客服中心票單列表與明細，串接 AI 回覆（同步 API 與 `useAIStream` SSE）。
+- `home`、`profile`：首頁展示區塊與個人資料頁。
 
-- 後端測試：`make test` 或 `uv run python -m pytest`
-- 前端建置：`npm run build` 或使用 `make fe-build`
-- 健康檢查：`make health` 會確認 `/admin/` 是否存活
-- 常見維運：`make ollama-pull MODEL=<name>` 拉取模型、`make psql` 進入資料庫
+## 核心邏輯與流程
+- **應用初始化**：`src/main.ts` 建立 Vue App，掛載 Pinia、Element Plus 與 `router`。`App.vue` 組合全域框架，並監聽登入狀態決定頭像列與側欄行為。
+- **路由與守衛**：`src/app/router.ts` 定義訪客區（登入/註冊）與會員區（館藏、借閱、通知、客服）。`guards/auth-guard.ts` 會在進入受保護路由前檢查 Pinia 狀態與 LocalStorage Token，必要時自動 `fetchMe()`，未登入則導向 `/login`。
+- **狀態管理**：
+  - `useAuthStore` 保存登入者資料與 Token，封裝登入、登出、`/auth/me/` 同步流程。
+  - `useNotificationsStore` 輪詢未讀通知數量，提供 `ensurePolling()`、`dec()` 等方法讓頁面同步徽章計數。
+- **HTTP 客戶端**：`src/lib/http.ts` 建立 Axios 實例，於 request interceptor 自動帶入 Bearer Token，response interceptor 則處理 401 時的 Refresh Token 流程並重送原請求。
+- **環境設定**：`src/config/env.ts` 將 `import.meta.env` 正規化提供 `API_BASE`、`SSE_BASE`、`ENABLE_SIGNUP` 等旗標，便於在 API 及 UI 中使用。
+- **資料載入與互動**：
+  - 館藏清單支援分頁、搜尋、分類/排序，並利用 `AbortController` 與 debounce 避免過量請求。
+  - 借閱流程會先嘗試 `/api/loans/`，若回傳 409 則改走預約 `/api/reservations/` 並提示使用者。
+  - 收藏 API 透過前端集合快取維持書籍卡片的收藏狀態，減少重複呼叫。
+  - 通知頁面支援「全部已讀」後同步更新未讀徽章與列表。
+- **客服與 AI**：
+  - `chat/api.ts` 封裝票單與訊息 CRUD，提供 `aiReply()` 進行一次性 AI 回覆。
+  - `useAIStream.ts` 實作 SSE 串流解析器，支援逐字串回呼 (`onDelta`) 與自動處理心跳、緩衝、終止事件，可在票單頁整合成即時 AI 回覆。
+- **型別與共用工具**：`src/types` 描述後端主要資源型別；`src/lib/storage.ts` 封裝 `localStorage` 操作並具備錯誤防護。
 
-## 更多資訊
-
-- 詳細後端 API 與模型說明：`backend/README.md`
-- Makefile 指令與自動化流程：`project.md`
-- 若需客製 AI 模型或串接其他提供者，可調整 `backend/.env` 中 `CHAT_AI_PROVIDER` 與 `CHAT_AI_MODEL`
-
-歡迎依照需求擴充 reports、recommendations 等預留模組，一同打造完整的智慧圖書館體驗。
+## 進一步開發建議
+- 新增頁面時可在 `src/features/<domain>/pages` 建立檔案並於 `router.ts` 掛載，維持領域導向的結構。
+- 若後端 API 需要新增欄位，先更新 `src/types` 對應型別，再調整各 `features/*/api.ts` 與頁面。
+- 需要長連線時，優先考慮重用 `useAIStream` 中的 SSE 解析與控制流程。
