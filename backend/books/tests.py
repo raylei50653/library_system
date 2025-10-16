@@ -1,4 +1,10 @@
+import csv
+import tempfile
+from pathlib import Path
+
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -183,3 +189,100 @@ class BookAPITestCase(APITestCase):
         results = payload["results"]
         self.assertGreaterEqual(len(results), 2)
         self.assertEqual(results[0]["id"], self.scifi_book.id)
+
+
+class ImportBooksCommandTests(TestCase):
+    required_headers = [
+        "title",
+        "author",
+        "category",
+        "total_copies",
+        "available_copies",
+        "skip",
+        "notes",
+    ]
+
+    def _write_csv(self, rows: list[dict[str, str]]) -> Path:
+        tmp = tempfile.NamedTemporaryFile("w", newline="", encoding="utf-8", delete=False)
+        with tmp:
+            writer = csv.DictWriter(tmp, fieldnames=self.required_headers)
+            writer.writeheader()
+            writer.writerows(rows)
+        path = Path(tmp.name)
+        self.addCleanup(lambda: path.exists() and path.unlink())
+        return path
+
+    def test_import_creates_books_and_categories(self):
+        csv_path = self._write_csv(
+            [
+                {
+                    "title": "測試書籍",
+                    "author": "測試作者",
+                    "category": "測試分類",
+                    "total_copies": "3",
+                    "available_copies": "5",  # 會被指令調整成 3
+                    "skip": "False",
+                    "notes": "",
+                },
+                {
+                    "title": "略過書籍",
+                    "author": "其他作者",
+                    "category": "測試分類",
+                    "total_copies": "1",
+                    "available_copies": "1",
+                    "skip": "True",
+                    "notes": "",
+                },
+            ]
+        )
+
+        call_command("import_books", str(csv_path))
+
+        self.assertEqual(Book.objects.count(), 1)
+        self.assertEqual(Category.objects.filter(name="測試分類").count(), 1)
+
+        book = Book.objects.get()
+        self.assertEqual(book.title, "測試書籍")
+        self.assertEqual(book.author, "測試作者")
+        self.assertEqual(book.total_copies, 3)
+        self.assertEqual(book.available_copies, 3)
+        self.assertEqual(book.status, "available")
+        self.assertIsNotNone(book.category)
+        self.assertEqual(book.category.name, "測試分類")
+
+    def test_import_updates_existing_records(self):
+        initial_csv = self._write_csv(
+            [
+                {
+                    "title": "更新測試書籍",
+                    "author": "測試作者",
+                    "category": "原分類",
+                    "total_copies": "2",
+                    "available_copies": "1",
+                    "skip": "False",
+                    "notes": "",
+                },
+            ]
+        )
+        call_command("import_books", str(initial_csv))
+
+        updated_csv = self._write_csv(
+            [
+                {
+                    "title": "更新測試書籍",
+                    "author": "測試作者",
+                    "category": "新分類",
+                    "total_copies": "6",
+                    "available_copies": "4",
+                    "skip": "False",
+                    "notes": "",
+                },
+            ]
+        )
+        call_command("import_books", str(updated_csv))
+
+        self.assertEqual(Book.objects.count(), 1)
+        book = Book.objects.get()
+        self.assertEqual(book.total_copies, 6)
+        self.assertEqual(book.available_copies, 4)
+        self.assertEqual(book.category.name, "新分類")

@@ -62,16 +62,29 @@
 
 ## 快速開始
 
-1. **安裝前置**：Docker / Docker Compose、Node 18+、Python 3.12（僅在本機執行時需要）。
-2. **建立環境**：根據 `backend/.env`、`frontend/.env` 覆寫需要的設定（預設已可本機使用）。
-3. **啟動所有服務**
+1. **取得專案原始碼**
+   ```bash
+   git clone https://github.com/raylei50653/library_system.git
+   cd library_system
+   ```
+2. **安裝前置**：
+   - Docker 24+ 與 Docker Compose v2（若要使用 `docker compose build` 建議一併安裝 Buildx）。
+   - （如需 GPU／Ollama 推理）NVIDIA 驅動、NVIDIA Container Toolkit，完成 `sudo nvidia-ctk runtime configure --runtime=docker --set-as-default` 後重新啟動 Docker。
+   - Node 18+、Python 3.12（僅在跳過 Docker、於本機執行時需要）。
+3. **建立環境**：根據 `backend/.env`、`frontend/.env` 覆寫需要的設定（預設已可本機使用）。
+4. **啟動所有服務**
    ```bash
    make up          # 或 docker compose up -d
    make logs-backend
    ```
    - 後端管理站台：`http://127.0.0.1:8000/admin/`
    - 前端開發伺服器：`http://127.0.0.1:5173`
-4. **建立帳號與資料**：透過 API 或 Django Admin 建立管理員、匯入 `backend/books_seed.csv` 等資料。
+5. **建立管理員帳號**
+   ```bash
+   make superuser
+   ```
+   完成指令後，以該帳號登入 `http://127.0.0.1:8000/admin/`，在 `Users` 選單中點選 `Add user`，輸入新成員的 `Username` 與 `Password`，再勾選需要的 `Staff status` 或 `Superuser status` 後儲存。
+6. **建立測試資料**：透過 API 或 Django Admin 匯入 `backend/books_seed.csv` 等資料。
 
 ### 本機開發（不透過 Docker）
 

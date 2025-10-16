@@ -10,6 +10,8 @@ OLLAMA_SERVICE    ?= ollama
 BACKEND_PORT      ?= 8000
 MODEL             ?= llama3.1:8b-instruct
 APP               ?=
+BOOKS_CSV        ?= ./books_seed.csv
+BOOKS_CSV_CONTAINER ?= /tmp/books_seed.csv
 
 .DEFAULT_GOAL := help
 
@@ -73,13 +75,15 @@ migrate: ## 套用所有遷移
 	$(COMPOSE) exec $(BACKEND_SERVICE) python manage.py migrate
 
 superuser: ## 建立管理員帳號
-	@$(COMPOSE) exec -e DJANGO_SUPERUSER_USERNAME=$${DJANGO_SUPERUSER_USERNAME:-admin} \
-	                 -e DJANGO_SUPERUSER_EMAIL=$${DJANGO_SUPERUSER_EMAIL:-admin@example.com} \
-	                 -e DJANGO_SUPERUSER_PASSWORD=$${DJANGO_SUPERUSER_PASSWORD:-ChangeMe123!} \
-	                 $(BACKEND_SERVICE) python manage.py createsuperuser --noinput
+	$(COMPOSE) exec $(BACKEND_SERVICE) python manage.py createsuperuser
 
 collectstatic: ## 收集靜態檔案
 	$(COMPOSE) exec $(BACKEND_SERVICE) python manage.py collectstatic --noinput
+
+import-books: ## 匯入書籍 CSV（可覆寫 BOOKS_CSV）
+	$(COMPOSE) up -d $(BACKEND_SERVICE)
+	$(COMPOSE) cp $(BOOKS_CSV) $(BACKEND_SERVICE):$(BOOKS_CSV_CONTAINER)
+	$(COMPOSE) exec $(BACKEND_SERVICE) python manage.py import_books $(BOOKS_CSV_CONTAINER)
 
 # ======================================
 # 測試與覆蓋率

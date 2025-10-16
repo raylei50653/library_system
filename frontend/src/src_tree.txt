@@ -1,61 +1,72 @@
-.
-├── app
-│   ├── guards
-│   │   └── auth-guard.ts
-│   ├── providers
-│   │   └── element-plus.ts
-│   └── router.ts
-├── App.vue
-├── assets
-│   ├── logo.svg
-│   └── style.css
-├── components
-│   └── HelloWorld.vue
-├── composables
-│   └── useAIStream.ts
-├── config
-│   └── env.ts
-├── features
-│   ├── auth
-│   │   ├── api.ts
-│   │   └── pages
-│   │       ├── LoginView.vue
-│   │       └── RegisterView.vue
-│   ├── books
-│   │   ├── api.ts
-│   │   ├── components
-│   │   │   └── BookCard.vue
-│   │   └── pages
-│   │       └── BooksListView.vue
-│   ├── chat
-│   │   ├── api.ts
-│   │   └── pages
-│   │       ├── ChatCenterView.vue
-│   │       └── TicketDetailView.vue
-│   ├── favorites
-│   │   ├── api.ts
-│   │   └── pages
-│   │       └── FavoritesView.vue
-│   ├── loans
-│   │   ├── api.ts
-│   │   └── pages
-│   │       └── LoansListView.vue
-│   └── profile
-│       └── pages
-│           └── ProfileView.vue
-├── lib
-│   ├── http.ts
-│   └── storage.ts
-├── main.ts
-├── src_tree.txt
-├── stores
-│   └── auth.ts
-├── style.css
-├── types
-│   ├── base.ts
-│   ├── book.ts
-│   ├── chat.ts
-│   └── loan.ts
-└── vite-env.d.ts
+[01;34m.[0m
+|-- App.vue
+|-- [01;34mapp[0m
+|   |-- [01;34mguards[0m
+|   |   `-- auth-guard.ts
+|   |-- [01;34mproviders[0m
+|   |   `-- element-plus.ts
+|   `-- router.ts
+|-- [01;34massets[0m
+|   |-- [01;35mlogo.svg[0m
+|   `-- style.css
+|-- [01;34mcomponents[0m
+|   `-- HelloWorld.vue
+|-- [01;34mcomposables[0m
+|   `-- useAIStream.ts
+|-- [01;34mconfig[0m
+|   `-- env.ts
+|-- [01;34mfeatures[0m
+|   |-- [01;34mauth[0m
+|   |   |-- api.ts
+|   |   `-- [01;34mpages[0m
+|   |       |-- LoginView.vue
+|   |       `-- RegisterView.vue
+|   |-- [01;34mbooks[0m
+|   |   |-- api.ts
+|   |   |-- [01;34mcomponents[0m
+|   |   |   `-- BookCard.vue
+|   |   `-- [01;34mpages[0m
+|   |       `-- BooksListView.vue
+|   |-- [01;34mchat[0m
+|   |   |-- api.ts
+|   |   `-- [01;34mpages[0m
+|   |       |-- ChatCenterView.vue
+|   |       `-- TicketDetailView.vue
+|   |-- [01;34mfavorites[0m
+|   |   |-- api.ts
+|   |   `-- [01;34mpages[0m
+|   |       `-- FavoritesView.vue
+|   |-- [01;34mhome[0m
+|   |   `-- [01;34mpages[0m
+|   |       `-- HomeView.vue
+|   |-- [01;34mloans[0m
+|   |   |-- api.ts
+|   |   `-- [01;34mpages[0m
+|   |       `-- LoansListView.vue
+|   |-- [01;34mnotifications[0m
+|   |   |-- api.ts
+|   |   |-- [01;34mcomponents[0m
+|   |   |   `-- NotificationBell.vue
+|   |   `-- [01;34mpages[0m
+|   |       `-- NotificationsView.vue
+|   `-- [01;34mprofile[0m
+|       `-- [01;34mpages[0m
+|           `-- ProfileView.vue
+|-- [01;34mlib[0m
+|   |-- http.ts
+|   `-- storage.ts
+|-- main.ts
+|-- src_tree.txt
+|-- [01;34mstores[0m
+|   |-- auth.ts
+|   `-- notifications.ts
+|-- style.css
+|-- [01;34mtypes[0m
+|   |-- base.ts
+|   |-- book.ts
+|   |-- chat.ts
+|   |-- loan.ts
+|   `-- notification.ts
+`-- vite-env.d.ts
 
-25 directories, 34 files
+30 directories, 40 files

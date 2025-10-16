@@ -1,126 +1,437 @@
-.
-├── auth_app
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── backend_tree.txt
-├── books
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_book_created_at_book_updated_at_alter_book_author_and_more.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── services.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── chat
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-├── config
-│   ├── asgi.py
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── conftest.py
-├── .env
-├── error.log
-├── favorites
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── .gitignore
-├── loans
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── permissions.py
-│   ├── serializers.py
-│   ├── services.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── main.py
-├── manage.py
-├── modules.md
-├── notifications
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_rename_notifications_user_is_read_created_at_idx_notificatio_user_id_8a7c6b_idx_and_more.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── services.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── pyproject.toml
-├── .pytest_cache
-│   ├── CACHEDIR.TAG
-│   ├── .gitignore
-│   ├── README.md
-│   └── v
-│       └── cache
-│           ├── lastfailed
-│           └── nodeids
-├── .python-version
-├── README.md
-├── users
-│   ├── admin.py
-│   ├── apps.py
-│   ├── __init__.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_alter_user_options_user_created_at_user_updated_at.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── permissions.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── .uv-cache
-│   ├── CACHEDIR.TAG
-│   ├── .gitignore
-│   ├── interpreter-v4
-│   │   └── 2599639d1b0af0a8
-│   │       └── 7af50a3dc93ffa68.msgpack
-│   ├── .lock
-│   └── sdists-v9
-│       └── .gitignore
-└── uv.lock
+[01;34m.[0m
+|-- Dockerfile
+|-- README.md
+|-- [01;34m__pycache__[0m
+|   `-- conftest.cpython-312-pytest-8.4.2.pyc
+|-- [01;34mauth_app[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- backend_tree.txt
+|-- [01;34mbooks[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- filters.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- tests.cpython-312-pytest-8.4.2.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- filters.py
+|   |-- [01;34mmanagement[0m
+|   |   |-- __init__.py
+|   |   |-- [01;34m__pycache__[0m
+|   |   |   `-- __init__.cpython-312.pyc
+|   |   `-- [01;34mcommands[0m
+|   |       |-- __init__.py
+|   |       |-- [01;34m__pycache__[0m
+|   |       |   |-- __init__.cpython-312.pyc
+|   |       |   `-- import_books.cpython-312.pyc
+|   |       `-- import_books.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- 0002_book_created_at_book_updated_at_alter_book_author_and_more.py
+|   |   |-- 0003_remove_book_books_available_lte_total_and_more.py
+|   |   |-- 0004_alter_book_isbn.py
+|   |   |-- 0005_remove_book_isbn.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       |-- 0002_book_created_at_book_updated_at_alter_book_author_and_more.cpython-312.pyc
+|   |       |-- 0003_remove_book_books_available_lte_total_and_more.cpython-312.pyc
+|   |       |-- 0004_alter_book_isbn.cpython-312.pyc
+|   |       |-- 0005_remove_book_isbn.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- services.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- books_seed.csv
+|-- [01;34mchat[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- [01;34mservices[0m
+|   |   |-- [01;34m__pycache__[0m
+|   |   |   |-- agent.cpython-312.pyc
+|   |   |   |-- ollama_client.cpython-312.pyc
+|   |   |   |-- prompting.cpython-312.pyc
+|   |   |   |-- rag_store.cpython-312.pyc
+|   |   |   `-- tools.cpython-312.pyc
+|   |   |-- agent.py
+|   |   |-- ollama_client.py
+|   |   |-- prompting.py
+|   |   |-- rag_store.py
+|   |   `-- tools.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- [01;34mconfig[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- settings.cpython-312.pyc
+|   |   |-- settings_test.cpython-312.pyc
+|   |   `-- urls.cpython-312.pyc
+|   |-- asgi.py
+|   |-- settings.py
+|   |-- settings_test.py
+|   |-- urls.py
+|   `-- wsgi.py
+|-- conftest.py
+|-- [01;32mentrypoint.sh[0m
+|-- error.log
+|-- [01;34mfavorites[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- [01;34mloans[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- permissions.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- services.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- permissions.py
+|   |-- serializers.py
+|   |-- services.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- main.py
+|-- [01;32mmanage.py[0m
+|-- modules.md
+|-- [01;34mnotifications[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- services.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- 0002_rename_notifications_user_is_read_created_at_idx_notificatio_user_id_8a7c6b_idx_and_more.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       |-- 0002_rename_notifications_user_is_read_created_at_idx_notificatio_user_id_8a7c6b_idx_and_more.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- serializers.py
+|   |-- services.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+|-- pyproject.toml
+|-- pytest.ini
+|-- requirements.txt
+|-- [01;34mstaticfiles[0m
+|   |-- [01;34madmin[0m
+|   |   |-- [01;34mcss[0m
+|   |   |   |-- autocomplete.css
+|   |   |   |-- base.css
+|   |   |   |-- changelists.css
+|   |   |   |-- dark_mode.css
+|   |   |   |-- dashboard.css
+|   |   |   |-- forms.css
+|   |   |   |-- login.css
+|   |   |   |-- nav_sidebar.css
+|   |   |   |-- responsive.css
+|   |   |   |-- responsive_rtl.css
+|   |   |   |-- rtl.css
+|   |   |   |-- unusable_password_field.css
+|   |   |   |-- [01;34mvendor[0m
+|   |   |   |   `-- [01;34mselect2[0m
+|   |   |   |       |-- LICENSE-SELECT2.md
+|   |   |   |       |-- select2.css
+|   |   |   |       `-- select2.min.css
+|   |   |   `-- widgets.css
+|   |   |-- [01;34mimg[0m
+|   |   |   |-- LICENSE
+|   |   |   |-- README.txt
+|   |   |   |-- [01;35mcalendar-icons.svg[0m
+|   |   |   |-- [01;34mgis[0m
+|   |   |   |   |-- [01;35mmove_vertex_off.svg[0m
+|   |   |   |   `-- [01;35mmove_vertex_on.svg[0m
+|   |   |   |-- [01;35micon-addlink.svg[0m
+|   |   |   |-- [01;35micon-alert.svg[0m
+|   |   |   |-- [01;35micon-calendar.svg[0m
+|   |   |   |-- [01;35micon-changelink.svg[0m
+|   |   |   |-- [01;35micon-clock.svg[0m
+|   |   |   |-- [01;35micon-deletelink.svg[0m
+|   |   |   |-- [01;35micon-hidelink.svg[0m
+|   |   |   |-- [01;35micon-no.svg[0m
+|   |   |   |-- [01;35micon-unknown-alt.svg[0m
+|   |   |   |-- [01;35micon-unknown.svg[0m
+|   |   |   |-- [01;35micon-viewlink.svg[0m
+|   |   |   |-- [01;35micon-yes.svg[0m
+|   |   |   |-- [01;35minline-delete.svg[0m
+|   |   |   |-- [01;35msearch.svg[0m
+|   |   |   |-- [01;35mselector-icons.svg[0m
+|   |   |   |-- [01;35msorting-icons.svg[0m
+|   |   |   |-- [01;35mtooltag-add.svg[0m
+|   |   |   `-- [01;35mtooltag-arrowright.svg[0m
+|   |   `-- [01;34mjs[0m
+|   |       |-- SelectBox.js
+|   |       |-- SelectFilter2.js
+|   |       |-- actions.js
+|   |       |-- [01;34madmin[0m
+|   |       |   |-- DateTimeShortcuts.js
+|   |       |   `-- RelatedObjectLookups.js
+|   |       |-- autocomplete.js
+|   |       |-- calendar.js
+|   |       |-- cancel.js
+|   |       |-- change_form.js
+|   |       |-- core.js
+|   |       |-- filters.js
+|   |       |-- inlines.js
+|   |       |-- jquery.init.js
+|   |       |-- nav_sidebar.js
+|   |       |-- popup_response.js
+|   |       |-- prepopulate.js
+|   |       |-- prepopulate_init.js
+|   |       |-- theme.js
+|   |       |-- unusable_password_field.js
+|   |       |-- urlify.js
+|   |       `-- [01;34mvendor[0m
+|   |           |-- [01;34mjquery[0m
+|   |           |   |-- LICENSE.txt
+|   |           |   |-- jquery.js
+|   |           |   `-- jquery.min.js
+|   |           |-- [01;34mselect2[0m
+|   |           |   |-- LICENSE.md
+|   |           |   |-- [01;34mi18n[0m
+|   |           |   |   |-- af.js
+|   |           |   |   |-- ar.js
+|   |           |   |   |-- az.js
+|   |           |   |   |-- bg.js
+|   |           |   |   |-- bn.js
+|   |           |   |   |-- bs.js
+|   |           |   |   |-- ca.js
+|   |           |   |   |-- cs.js
+|   |           |   |   |-- da.js
+|   |           |   |   |-- de.js
+|   |           |   |   |-- dsb.js
+|   |           |   |   |-- el.js
+|   |           |   |   |-- en.js
+|   |           |   |   |-- es.js
+|   |           |   |   |-- et.js
+|   |           |   |   |-- eu.js
+|   |           |   |   |-- fa.js
+|   |           |   |   |-- fi.js
+|   |           |   |   |-- fr.js
+|   |           |   |   |-- gl.js
+|   |           |   |   |-- he.js
+|   |           |   |   |-- hi.js
+|   |           |   |   |-- hr.js
+|   |           |   |   |-- hsb.js
+|   |           |   |   |-- hu.js
+|   |           |   |   |-- hy.js
+|   |           |   |   |-- id.js
+|   |           |   |   |-- is.js
+|   |           |   |   |-- it.js
+|   |           |   |   |-- ja.js
+|   |           |   |   |-- ka.js
+|   |           |   |   |-- km.js
+|   |           |   |   |-- ko.js
+|   |           |   |   |-- lt.js
+|   |           |   |   |-- lv.js
+|   |           |   |   |-- mk.js
+|   |           |   |   |-- ms.js
+|   |           |   |   |-- nb.js
+|   |           |   |   |-- ne.js
+|   |           |   |   |-- nl.js
+|   |           |   |   |-- pl.js
+|   |           |   |   |-- ps.js
+|   |           |   |   |-- pt-BR.js
+|   |           |   |   |-- pt.js
+|   |           |   |   |-- ro.js
+|   |           |   |   |-- ru.js
+|   |           |   |   |-- sk.js
+|   |           |   |   |-- sl.js
+|   |           |   |   |-- sq.js
+|   |           |   |   |-- sr-Cyrl.js
+|   |           |   |   |-- sr.js
+|   |           |   |   |-- sv.js
+|   |           |   |   |-- th.js
+|   |           |   |   |-- tk.js
+|   |           |   |   |-- tr.js
+|   |           |   |   |-- uk.js
+|   |           |   |   |-- vi.js
+|   |           |   |   |-- zh-CN.js
+|   |           |   |   `-- zh-TW.js
+|   |           |   |-- select2.full.js
+|   |           |   `-- select2.full.min.js
+|   |           `-- [01;34mxregexp[0m
+|   |               |-- LICENSE.txt
+|   |               |-- xregexp.js
+|   |               `-- xregexp.min.js
+|   |-- [01;34mdjango_extensions[0m
+|   |   |-- [01;34mcss[0m
+|   |   |   `-- jquery.autocomplete.css
+|   |   |-- [01;34mimg[0m
+|   |   |   `-- [01;35mindicator.gif[0m
+|   |   `-- [01;34mjs[0m
+|   |       |-- jquery.ajaxQueue.js
+|   |       |-- jquery.autocomplete.js
+|   |       `-- jquery.bgiframe.js
+|   |-- [01;34mimport_export[0m
+|   |   |-- export.css
+|   |   |-- export_selectable_fields.js
+|   |   |-- guess_format.js
+|   |   `-- import.css
+|   `-- [01;34mrest_framework[0m
+|       |-- [01;34mcss[0m
+|       |   |-- bootstrap-theme.min.css
+|       |   |-- bootstrap-theme.min.css.map
+|       |   |-- bootstrap-tweaks.css
+|       |   |-- bootstrap.min.css
+|       |   |-- bootstrap.min.css.map
+|       |   |-- default.css
+|       |   |-- font-awesome-4.0.3.css
+|       |   `-- prettify.css
+|       |-- [01;34mdocs[0m
+|       |   |-- [01;34mcss[0m
+|       |   |   |-- base.css
+|       |   |   |-- highlight.css
+|       |   |   `-- jquery.json-view.min.css
+|       |   |-- [01;34mimg[0m
+|       |   |   |-- favicon.ico
+|       |   |   `-- [01;35mgrid.png[0m
+|       |   `-- [01;34mjs[0m
+|       |       |-- api.js
+|       |       |-- highlight.pack.js
+|       |       `-- jquery.json-view.min.js
+|       |-- [01;34mfonts[0m
+|       |   |-- fontawesome-webfont.eot
+|       |   |-- [01;35mfontawesome-webfont.svg[0m
+|       |   |-- fontawesome-webfont.ttf
+|       |   |-- fontawesome-webfont.woff
+|       |   |-- glyphicons-halflings-regular.eot
+|       |   |-- [01;35mglyphicons-halflings-regular.svg[0m
+|       |   |-- glyphicons-halflings-regular.ttf
+|       |   |-- glyphicons-halflings-regular.woff
+|       |   `-- glyphicons-halflings-regular.woff2
+|       |-- [01;34mimg[0m
+|       |   |-- [01;35mglyphicons-halflings-white.png[0m
+|       |   |-- [01;35mglyphicons-halflings.png[0m
+|       |   `-- [01;35mgrid.png[0m
+|       `-- [01;34mjs[0m
+|           |-- ajax-form.js
+|           |-- bootstrap.min.js
+|           |-- coreapi-0.1.1.js
+|           |-- csrf.js
+|           |-- default.js
+|           |-- jquery-3.7.1.min.js
+|           |-- load-ajax-form.js
+|           `-- prettify-min.js
+|-- test.md
+|-- [01;34musers[0m
+|   |-- __init__.py
+|   |-- [01;34m__pycache__[0m
+|   |   |-- __init__.cpython-312.pyc
+|   |   |-- admin.cpython-312.pyc
+|   |   |-- apps.cpython-312.pyc
+|   |   |-- models.cpython-312.pyc
+|   |   |-- permissions.cpython-312.pyc
+|   |   |-- serializers.cpython-312.pyc
+|   |   |-- urls.cpython-312.pyc
+|   |   `-- views.cpython-312.pyc
+|   |-- admin.py
+|   |-- apps.py
+|   |-- [01;34mmigrations[0m
+|   |   |-- 0001_initial.py
+|   |   |-- 0002_alter_user_options_user_created_at_user_updated_at.py
+|   |   |-- __init__.py
+|   |   `-- [01;34m__pycache__[0m
+|   |       |-- 0001_initial.cpython-312.pyc
+|   |       |-- 0002_alter_user_options_user_created_at_user_updated_at.cpython-312.pyc
+|   |       `-- __init__.cpython-312.pyc
+|   |-- models.py
+|   |-- permissions.py
+|   |-- serializers.py
+|   |-- tests.py
+|   |-- urls.py
+|   `-- views.py
+`-- uv.lock
 
-23 directories, 101 files
+66 directories, 369 files

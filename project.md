@@ -10,13 +10,14 @@
 ## 一、基本參數
 
 ```makefile
-COMPOSE           ?= docker compose
-BACKEND_SERVICE   ?= backend
-DB_SERVICE        ?= db
-OLLAMA_SERVICE    ?= ollama
-BACKEND_PORT      ?= 8000
-MODEL             ?= llama3.1:8b-instruct
-APP               ?=        # 範例：make makemigrations APP=books
+COMPOSE           ?= docker compose         # Docker Compose 指令名稱
+BACKEND_SERVICE   ?= backend                # docker compose 內的後端服務
+DB_SERVICE        ?= db                     # 資料庫服務名稱
+OLLAMA_SERVICE    ?= ollama                 # Ollama 服務名稱
+BACKEND_PORT      ?= 8000                   # 本機後端埠號
+MODEL             ?= llama3.1:8b-instruct   # 預設 Ollama 模型
+APP               ?=                        # 範例：make makemigrations APP=books
+BOOKS_CSV        ?= ./books_seed.csv        # 預設匯入書籍 CSV
 
 .DEFAULT_GOAL := help
 ```
@@ -55,10 +56,11 @@ make logs-backend  # 查看後端日誌
 ```bash
 make check                # 健檢設定
 make show-urls            # 列出 URL 對照表
-make makemigrations APP=books
-make migrate
-make superuser
-make collectstatic
+make makemigrations APP=books          # 為指定 app 產生遷移檔
+make migrate                           # 套用所有遷移
+make superuser                         # 互動式建立管理員帳號
+make collectstatic                     # 收集靜態檔案至 staticfiles/
+make import-books BOOKS_CSV=./books_seed.csv        # 匯入書籍 CSV
 ```
 
 ---
