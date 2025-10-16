@@ -36,6 +36,7 @@ const actionRowId = ref<number | null>(null)
 // ✅ 收藏狀態（整頁共用）
 const favIds = ref<Set<number>>(new Set())
 const favBusy = ref<number | null>(null)
+const reservedBookIds = ref<Set<number>>(new Set())
 
 let aborter: AbortController | null = null
 let debounceTimer: number | null = null
@@ -47,6 +48,10 @@ function hasStock(row: Book) {
 
 function isFav(row: Book) {
   return favIds.value.has(row.id)
+}
+
+function isReserved(row: Book) {
+  return reservedBookIds.value.has(row.id)
 }
 
 async function ensureLogin(tip: string) {
@@ -94,6 +99,26 @@ async function fetchCategories() {
   }
 }
 
+async function fetchReservations() {
+  if (!auth.me) {
+    reservedBookIds.value = new Set()
+    return
+  }
+  try {
+    const { data } = await http.get<{
+      count: number
+      results: Array<{ book: number }>
+    }>('/api/reservations/', {
+      params: {
+        page_size: 1000,
+      },
+    })
+    reservedBookIds.value = new Set(data.results.map(item => item.book))
+  } catch {
+    // 忽略預約清單載入錯誤，維持目前狀態
+  }
+}
+
 async function handleBorrow(row: Book) {
   if (!(await ensureLogin('請先登入以借閱'))) return
   actionRowId.value = row.id
@@ -126,6 +151,9 @@ async function handleReserve(row: Book) {
   try {
     await http.post(`/api/reservations/`, { book_id: row.id })
     ElMessage.success('已加入預約候補清單')
+    const next = new Set(reservedBookIds.value)
+    next.add(row.id)
+    reservedBookIds.value = next
   } catch (err: any) {
     const msg = err?.response?.data?.detail || err?.message || '預約失敗'
     ElMessage.error(msg)
@@ -204,10 +232,27 @@ onMounted(async () => {
     } catch {
       // ignore：未登入或 API 失敗時略過收藏狀態
     }
+    await fetchReservations()
   }
 })
 
 watch(search, handleSearchDebounced)
+watch(
+  () => auth.me,
+  async me => {
+    if (me) {
+      try {
+        favIds.value = new Set(await loadFavoritesOnce())
+      } catch {
+        // ignore：未登入或 API 失敗時略過收藏狀態
+      }
+      await fetchReservations()
+    } else {
+      favIds.value = new Set()
+      reservedBookIds.value = new Set()
+    }
+  },
+)
 
 // 顯示用：分類名稱
 const itemsView = computed(() =>
@@ -285,9 +330,10 @@ const itemsView = computed(() =>
               size="small"
               type="primary"
               :loading="actionRowId === row.id"
+              :disabled="!hasStock(row) && isReserved(row)"
               @click="hasStock(row) ? handleBorrow(row) : handleReserve(row)"
             >
-              {{ hasStock(row) ? '借閱' : '預約' }}
+              {{ hasStock(row) ? '借閱' : isReserved(row) ? '已預約' : '預約' }}
             </el-button>
           </template>
         </el-table-column>
