@@ -71,6 +71,19 @@
    - Docker 24+ 與 Docker Compose v2（若要使用 `docker compose build` 建議一併安裝 Buildx）。
    - （如需 GPU／Ollama 推理）NVIDIA 驅動、NVIDIA Container Toolkit，完成 `sudo nvidia-ctk runtime configure --runtime=docker --set-as-default` 後重新啟動 Docker。
    - Node 18+、Python 3.12（僅在跳過 Docker、於本機執行時需要）。
+   - 若於本機環境執行（非 Docker），建議先透過套件管理器安裝基礎相依：
+     - **Debian / Ubuntu (apt)**：
+       ```bash
+       sudo apt update
+       sudo apt install -y build-essential python3 python3-venv python3-dev libpq-dev \
+         libffi-dev libssl-dev pkg-config nodejs npm git
+       ```
+     - **Arch / Manjaro (pacman)**：
+       ```bash
+       sudo pacman -Syu
+       sudo pacman -S --needed base-devel python python-pip python-virtualenv libpq \
+         libffi openssl nodejs npm git
+       ```
 3. **建立環境**：根據 `backend/.env`、`frontend/.env` 覆寫需要的設定（預設已可本機使用）。
 4. **啟動所有服務**
    ```bash
