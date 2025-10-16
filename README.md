@@ -9,6 +9,7 @@
 - **資料庫**：PostgreSQL 16，透過 `dj-database-url` 與環境變數連線。
 - **AI / RAG**：`chat` 模組連接 Ollama 模型，提供同步回覆與 SSE 串流。
 - **協作與自動化**：`docker-compose.yml` 建立 db/backend/frontend/ollama 四個服務；`Makefile` 提供一鍵啟動、測試與維運指令。
+- **路由分層**：認證(`/auth/`)、使用者(`/users/`)、REST 資源(`/api/`)、聊天(`/chat/`) 分開掛載，細節見 `backend/modules.md`。
 
 ```
 [Vue 3 SPA] -- REST / SSE --> [Django API] -- ORM --> [PostgreSQL]
@@ -37,6 +38,17 @@
 - 使用 `features/*/api.ts` 匯整各模組 API，`lib/http.ts` 統一攔截器與錯誤處理。
 - `useAIStream` 可重複使用於任意 SSE 場景，並具中止控制與錯誤回傳。
 - 路由守衛 `app/guards/auth-guard.ts` 確保私人頁面需登入。
+
+## REST API 導覽（摘要）
+
+| 模組 | Base Prefix | 主要功能 |
+|------|-------------|----------|
+| Auth | `/auth/` | 註冊、登入、refresh、登出、`/auth/me/` |
+| Users | `/users/` | 個人檔案與管理員使用者管理 |
+| Resources | `/api/` | Books / Categories / Loans / Reservations / Favorites / Notifications |
+| Chat | `/chat/` | 客服票單、訊息、AI 同步與 SSE |
+
+詳列端點、參數與流程請參考 `backend/modules.md`。
 
 ## 專案目錄重點
 
@@ -124,6 +136,7 @@ npm run dev
 ## 更多資訊
 
 - 詳細後端 API 與模型說明：`backend/README.md`
+- 各模組端點與權限：`backend/modules.md`
 - Makefile 指令與自動化流程：`project.md`
 - 若需客製 AI 模型或串接其他提供者，可調整 `backend/.env` 中 `CHAT_AI_PROVIDER` 與 `CHAT_AI_MODEL`
 
